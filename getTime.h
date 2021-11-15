@@ -8,7 +8,7 @@ using namespace std;
 
 int getTime()
 {    
-    cout<<DATE<<endl;
+    //cout<<DATE<<endl;
     system(DATE);
     ifstream file;
     file.open("./log/time.log"); 

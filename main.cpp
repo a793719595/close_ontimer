@@ -14,12 +14,13 @@ using namespace std;
 #define START_TIME 21
 #define END_TIME  8
 
-#define LOOP_TIME 5
+#define LOOP_TIME 600
 #define TASK "tasklist.exe /fi \"imagename eq  nbminer.exe\" >./log/task.log"
 
 
 static string KILL = "taskkill.exe /PID ";
-void killProcess()
+static string KILL2 = "taskkill.exe /im nbminer.exe /f";
+void killProcess(uv_timer_t *handle)
 {
     cout<<TASK<<endl;
     system(TASK);
@@ -53,24 +54,29 @@ void killProcess()
     for (int num : PID) {
         string kill_pid(KILL);
         kill_pid.append(to_string(num));
+        kill_pid.append("/f");
         cout<<kill_pid<<endl;
         system(kill_pid.c_str());
     }
+    uv_timer_stop(handle);
     return ;
 }
-void checkTime() 
+void checkTime(uv_timer_t *handle) 
 {
     int hour = getTime();
-    cout<<hour<<endl;
-    if (hour > START_TIME | hour < END_TIME) {
-        //return;
+    //cout<<hour<<endl;
+    if (hour >= START_TIME | hour < END_TIME) {
+        return;
     }
-    killProcess();
+    //killProcess(handle);
+    cout<<KILL2<<endl;
+    system(KILL2.c_str());
+    uv_timer_stop(handle);
     return;
 }
 
 void timer_func(uv_timer_t *handle) {
-    checkTime();
+    checkTime(handle);
     return ;
 }
 
@@ -80,7 +86,7 @@ int main()
     uv_timer_t gc_req;
     loop = uv_default_loop();
     uv_timer_init(loop, &gc_req);  
-    uv_timer_start(&gc_req, timer_func, 0, 0);
+    uv_timer_start(&gc_req, timer_func, 0, LOOP_TIME);
     uv_run(loop, UV_RUN_DEFAULT);   
     return 0;
 }

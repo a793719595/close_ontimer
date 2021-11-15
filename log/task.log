@@ -1,6 +1,5 @@
 
 Image Name                     PID Session Name        Session#    Mem Usage
 ========================= ======== ================ =========== ============
-nbminer.exe                  60232 Console                    1      4,448 K
-nbminer.exe                  53964 Console                    1      4,448 K
-nbminer.exe                  43120 Console                    1      4,448 K
+nbminer.exe                  45588 Console                    1     33,752 K
+nbminer.exe                  49200 Console                    1    318,744 K
