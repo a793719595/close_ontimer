@@ -63,7 +63,15 @@ void killProcess(uv_timer_t *handle)
 }
 void checkTime(uv_timer_t *handle) 
 {
-    int hour = getTime();
+    int hour;
+#ifdef HOUR_BY_DATE
+    hour = getTime();
+#endif //HOUR_BY_DATE
+
+#ifdef HOUR_BY_API
+    timeval nowTus;
+    hour = getTime(nowTus);
+#endif // HOUR_BY_API
     //cout<<hour<<endl;
     if (hour >= START_TIME | hour < END_TIME) {
         return;

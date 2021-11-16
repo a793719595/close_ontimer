@@ -7,13 +7,15 @@ OBJECTS     :=
 CFLAGS      :=-I ./include/  ./include/libuv.a       #寻找依赖性时，若不在当前-std=c++11
 LDFLAGS     := -ldl -lpthread 
 OUTPATH		:=./bin
+GETHOUR     :=HOUR_BY_API
+
 .PHONY: all
 all: clean $(TARGET)
 #终极目标是all 需要两个依赖 clean 和 $(TARGET) 会先去完成第一个依赖的任务 所以先执行的是clean: 后的语句
 
 $(TARGET):
 	$(Q)echo "  Building '$@' ..."
-	$(CC) -g $(SRCS) -std=c++11 -o $@ $(CFLAGS) $(LDFLAGS)
+	$(CC) -g $(SRCS) -std=c++11 -o $@ $(CFLAGS) $(LDFLAGS) -D $(GETHOUR)
 	$(Q)mv $(TARGET) $(OUTPATH)  
     
 # $(Q)mv $(TARGET) $(OUTPATH) 移动 GetWinInfo.exe 到./bin目录下
